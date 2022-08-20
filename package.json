@@ -1,0 +1,36 @@
+{
+  "name": "zappetizer-api",
+  "version": "1.0.0",
+  "description": "Remembering menu orders made easy",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "npm run build && node build/index.js",
+    "build": "rimraf ./build && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jovanamatk/zappetizer-api.git"
+  },
+  "author": "jovanamatk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jovanamatk/zappetizer-api/issues"
+  },
+  "homepage": "https://github.com/jovanamatk/zappetizer-api#readme",
+  "dependencies": {
+    "@types/node": "^18.7.8",
+    "bcrypt": "^5.0.1",
+    "config": "^3.3.7",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "typeorm": "^0.3.7",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1"
+  }
+}
