@@ -1,16 +1,13 @@
 import { DataSource } from "typeorm";
-import Category from "./modules/category/category.entity";
-import MenuItem from "./modules/menu-item/menu-item.entity";
-import User from "./modules/user/user.entity";
 import App from "./modules/app.module";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "host.docker.internal",
-  port: 5432,
-  username: "postgres",
-  password: "111",
-  database: "db",
+  host: process.env.DB_HOST,
+  port: +process.env.DB_PORT,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   synchronize: true,
   logging: true,
   entities: App.getEntities(),
