@@ -1,22 +1,25 @@
 import * as express from "express";
-import userController from "./user/user.controller";
-import menuItemController from "./menu-item/menu-item.controller";
-import categoryController from "./category/category.controller";
+import AppModule from "./app.module";
 
-const appController = () => {
-  const app = express();
+export default class AppController {
+  constructor(private app: express.Application) {
+    this.runServer(app);
+    this.initializeControllers(app);
+  }
 
-  app.listen(process.env.PORT, () => {
-    console.log(`API listening on port ${process.env.PORT}!`);
-  });
+  private runServer(app): void {
+    app.listen(process.env.PORT, () => {
+      console.log(`API listening on port ${process.env.PORT}!`);
+    });
 
-  app.get("/", (req, res) => {
-    res.send("Hello World!");
-  });
+    app.get("/", (req, res) => {
+      res.send("Hello World!");
+    });
+  }
 
-  userController(app);
-  menuItemController(app);
-  categoryController(app);
-};
+  private initializeControllers(app: express.Application): void {
+    const controllers = AppModule.getControllers();
 
-export default appController;
+    controllers.forEach((invokeController) => invokeController(app));
+  }
+}

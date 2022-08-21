@@ -1,7 +1,8 @@
 import "dotenv/config";
 import "reflect-metadata";
 import { AppDataSource } from "./data-source";
-import appController from "./modules/app.controller";
+import AppController from "./modules/app.controller";
+import * as express from "express";
 
 AppDataSource.initialize()
   .then(() => {
@@ -9,4 +10,5 @@ AppDataSource.initialize()
   })
   .catch((error) => console.log(error));
 
-appController();
+const app = express();
+new AppController(app);
