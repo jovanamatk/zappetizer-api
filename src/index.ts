@@ -10,5 +10,5 @@ AppDataSource.initialize()
   })
   .catch((error) => console.log(error));
 
-const app = express();
+const app: express.Application = express();
 new AppController(app);

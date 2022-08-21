@@ -3,23 +3,23 @@ import AppModule from "./app.module";
 
 export default class AppController {
   constructor(private app: express.Application) {
-    this.runServer(app);
-    this.initializeControllers(app);
+    this.runServer();
+    this.initializeControllers();
   }
 
-  private runServer(app): void {
-    app.listen(process.env.PORT, () => {
+  private runServer(): void {
+    this.app.listen(process.env.PORT, () => {
       console.log(`API listening on port ${process.env.PORT}!`);
     });
 
-    app.get("/", (req, res) => {
+    this.app.get("/", (req, res) => {
       res.send("Hello World!");
     });
   }
 
-  private initializeControllers(app: express.Application): void {
+  private initializeControllers(): void {
     const controllers = AppModule.getControllers();
 
-    controllers.forEach((invokeController) => invokeController(app));
+    controllers.forEach((invokeController) => invokeController(this.app));
   }
 }
