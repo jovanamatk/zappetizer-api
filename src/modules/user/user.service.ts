@@ -2,7 +2,7 @@ import UserEntity from "./user.entity";
 import { AppDataSource } from "../../data-source";
 import { Repository } from "typeorm";
 import validate from "./user.validator";
-import { PasswordService } from "../services/password.service";
+import { PasswordService } from "../auth/services/password.service";
 
 export default class User {
   private userRepository: Repository<UserEntity>;
