@@ -1,6 +1,7 @@
 import Category from "./category/category.module";
 import MenuItem from "./menu-item/menu-item.module";
 import User from "./user/user.module";
+import Auth from "./auth/auth.module";
 
 export default class AppModule {
   public static getEntities(): Function[] {
@@ -12,6 +13,7 @@ export default class AppModule {
       Category.getController(),
       MenuItem.getController(),
       User.getController(),
+      Auth.getController(),
     ];
   }
 }
