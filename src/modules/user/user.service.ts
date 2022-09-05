@@ -2,17 +2,17 @@ import UserEntity from "./user.entity";
 import { AppDataSource } from "../../data-source";
 import { Repository } from "typeorm";
 import validate from "./user.validator";
-import { PasswordService } from "../auth/services/password.service";
+import AuthModule from "../auth/auth.module";
 
 export default class User {
   private userRepository: Repository<UserEntity>;
   private validate: typeof validate;
-  private passwordService: typeof PasswordService;
+  private passwordService;
 
   constructor() {
     this.userRepository = AppDataSource.getRepository(UserEntity);
+    this.passwordService = AuthModule.getPasswordService();
     this.validate = validate;
-    this.passwordService = PasswordService;
   }
 
   async findByEmail(email: string) {
