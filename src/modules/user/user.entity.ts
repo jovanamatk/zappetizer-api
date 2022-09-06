@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import Category from "../category/category.entity";
+import { Roles } from "./enums/roles.enum";
 
 @Entity()
 export default class User {
@@ -9,7 +10,12 @@ export default class User {
   @Column()
   name: string;
 
-  @Column()
+  @Column({
+    type: "enum",
+    enum: Roles,
+    enumName: "userRoleEnum",
+    default: Roles.RESTAURANT,
+  })
   role: string;
 
   @Column({ unique: true })

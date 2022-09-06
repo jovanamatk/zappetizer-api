@@ -19,9 +19,19 @@ const userController = (app) => {
     }
   });
 
-  app.delete(PATH, auth, async (req, res) => {
+  app.delete(`${PATH}/:id`, auth, async (req, res) => {
     try {
-      const result = await userService.delete(req.userData.id);
+      const userId = +req.params.id;
+      const currentUser = await userService.findById(req.userData.id);
+
+      if (userId !== req.userData.id && currentUser.role !== "admin") {
+        throw new Error("You are not allowed to delete this user");
+      }
+
+      const result = await userService.delete(userId);
+      if (result.affected === 0) {
+        throw new Error("User not found");
+      }
       res.status(200).send(result);
     } catch (error) {
       res.status(400).json({ error: error.message });
