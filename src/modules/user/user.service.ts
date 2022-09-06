@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import validate from "./user.validator";
 import AuthModule from "../auth/auth.module";
 import { Roles } from "./enums/roles.enum";
+import { IUser } from "./interfaces/user.interface";
 
 export default class User {
   private userRepository: Repository<UserEntity>;
@@ -24,17 +25,7 @@ export default class User {
     return await this.userRepository.findOne({ where: { email } });
   }
 
-  async create({
-    name,
-    password,
-    email,
-    role,
-  }: {
-    name: string;
-    password: string;
-    email: string;
-    role?: Roles;
-  }) {
+  async create({ name, password, email, role }: IUser) {
     if (await this.findByEmail(email)) {
       throw new Error("User already exists");
     }
@@ -43,6 +34,7 @@ export default class User {
       name,
       password,
       email,
+      role,
     });
 
     if (validation.success === false) {
@@ -60,6 +52,27 @@ export default class User {
       role: role || Roles.RESTAURANT,
     });
     return await this.userRepository.save(user);
+  }
+
+  async update(id: number, data: IUser) {
+    const user = await this.findById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const validation = this.validate(data);
+
+    if (validation.success === false) {
+      throw new Error(validation.error.issues[0].message);
+    }
+
+    const updatedUser = this.userRepository.merge(user, {
+      name: validation.data.name,
+      email: validation.data.email,
+      role: validation.data.role,
+    });
+
+    return await this.userRepository.save(updatedUser);
   }
 
   async delete(id: number) {

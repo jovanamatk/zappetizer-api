@@ -1,6 +1,7 @@
 import AuthModule from "../auth.module";
 import UserModule from "../../user/user.module";
 import * as jwt from "jsonwebtoken";
+import { Roles } from "src/modules/user/enums/roles.enum";
 
 type TokenData = {
   email: string;
@@ -33,24 +34,31 @@ export default class Auth {
     if (!user) {
       throw new Error("There is no user with this email.");
     }
+    const { password: hashedPassword, ...userData } = user;
 
     const isPasswordValid = await this.passwordService.comparePassword(
       password,
-      user.password
+      hashedPassword
     );
     if (!isPasswordValid) {
       throw new Error("Invalid password.");
     }
-    return this.createJwt({ id: user.id, email: user.email });
+    return this.createJwt(userData);
   }
 
   public async register(
     name: string,
     password: string,
-    email: string
+    email: string,
+    role: Roles
   ): Promise<TokenData> {
     try {
-      const { id } = await this.userService.create({ name, password, email });
+      const { id } = await this.userService.create({
+        name,
+        password,
+        email,
+        role,
+      });
       return { id, email };
     } catch (error) {
       throw new Error(error.message);

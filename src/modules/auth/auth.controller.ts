@@ -17,9 +17,9 @@ const authController = (app) => {
   });
   app.post(`${PATH}/register`, async (req, res) => {
     try {
-      const { name, password, email } = req.body;
+      const { name, password, email, role } = req.body;
 
-      const { id } = await authService.register(name, password, email);
+      const { id } = await authService.register(name, password, email, role);
       return res.status(201).json({ id, email });
     } catch (error) {
       return res.status(400).json({ error: error.message });
