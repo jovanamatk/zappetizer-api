@@ -28,6 +28,6 @@ COPY . .
 
 COPY --from=development /usr/src/app/build ./build
 
-# RUN npx typeorm migration:run
+RUN npx typeorm migration:run
 
 CMD ["node", "start"]

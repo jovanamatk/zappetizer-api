@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   main:
-    container_name: main
+    container_name: main_zappetizer
     build:
       context: .
       target: development
@@ -19,7 +19,7 @@ services:
     depends_on:
       - postgres
   postgres:
-    container_name: postgres
+    container_name: postgres_zappetizer
     image: postgres:12
     networks:
       - webnet
